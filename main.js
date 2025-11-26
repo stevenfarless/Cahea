@@ -1,13 +1,11 @@
 import { auth } from './firebase.js';
-import { app } from './firebase.js';
 import { CAHDeck } from './CAHDeck.js';
 import {
-    getAuth,
     signInWithEmailAndPassword,
     signOut,
     onAuthStateChanged,
     createUserWithEmailAndPassword,
-} from 'https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js';
+} from 'https://www.gstatic.com/firebasejs/9.22.2/firebase-auth.js';
 
 const loginBtn = document.getElementById('loginBtn');
 const signupBtn = document.getElementById('signupBtn');
@@ -22,8 +20,6 @@ const drawBlack = document.getElementById('drawBlack');
 
 const drawWhiteResult = document.getElementById('drawWhiteResult');
 const drawBlackResult = document.getElementById('drawBlackResult');
-
-const auth = getAuth(app);
 
 signupBtn.onclick = async () => {
     const email = emailInput.value.trim();
