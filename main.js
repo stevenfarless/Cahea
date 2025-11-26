@@ -43,3 +43,34 @@ function showCards(deck, packIdx) {
 
 // Initial load of packs
 loadPacks();
+
+const drawWhite = document.getElementById('drawWhite');
+const drawBlack = document.getElementById('drawBlack');
+const drawResult = document.getElementById('drawResult');
+
+let sharedDeck; // cache the deck for drawing
+
+async function loadPacks() {
+    const deck = await CAHDeck.fromCompact('cah-all-compact.json');
+    sharedDeck = deck;
+    // ...rest of your code
+}
+
+drawWhite.onclick = () => {
+    if (!sharedDeck) return;
+    // Pick a random pack and card
+    const packs = sharedDeck.deck;
+    if (packs.length === 0) return;
+    const pack = packs[Math.floor(Math.random() * packs.length)];
+    const card = pack.white[Math.floor(Math.random() * pack.white.length)];
+    drawResult.innerHTML = `<div class="card white">${card.text}</div>`;
+};
+
+drawBlack.onclick = () => {
+    if (!sharedDeck) return;
+    const packs = sharedDeck.deck;
+    if (packs.length === 0) return;
+    const pack = packs[Math.floor(Math.random() * packs.length)];
+    const card = pack.black[Math.floor(Math.random() * pack.black.length)];
+    drawResult.innerHTML = `<div class="card black">${card.text}</div>`;
+};
