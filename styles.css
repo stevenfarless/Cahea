@@ -1,14 +1,35 @@
+/* Dracula Theme Color Palette */
+:root {
+    --dracula-bg: #282a36;
+    --dracula-current-line: #44475a;
+    --dracula-selection: #44475a;
+    --dracula-foreground: #f8f8f2;
+    --dracula-comment: #6272a4;
+    --dracula-cyan: #8be9fd;
+    --dracula-green: #50fa7b;
+    --dracula-orange: #ffb86c;
+    --dracula-pink: #ff79c6;
+    --dracula-purple: #bd93f9;
+    --dracula-red: #ff5555;
+    --dracula-yellow: #f1fa8c;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Inter, Arial, sans-serif;
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
-    background: #fafafa;
-    color: #222;
+    background: var(--dracula-bg);
+    color: var(--dracula-foreground);
+    line-height: 1.6;
 }
 
 header {
-    background: #fff;
-    border-bottom: 2px solid #222;
+    background: var(--dracula-current-line);
+    border-bottom: 2px solid var(--dracula-purple);
     text-align: center;
     padding: 2rem 1rem 1rem 1rem;
 }
@@ -16,15 +37,23 @@ header {
 h1 {
     font-weight: 700;
     margin-bottom: 0.5rem;
+    color: var(--dracula-purple);
+    font-size: 2.5rem;
+}
+
+header p {
+    color: var(--dracula-cyan);
+    font-size: 1.1rem;
 }
 
 section {
     margin: 2rem auto;
     max-width: 700px;
-    background: #fff;
+    background: var(--dracula-current-line);
     padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(40, 40, 40, 0.04);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    border: 1px solid var(--dracula-selection);
 }
 
 #authForm {
@@ -32,61 +61,135 @@ section {
     gap: 0.5rem;
     align-items: center;
     margin-bottom: 1rem;
+    flex-wrap: wrap;
 }
 
 #authForm input {
-    padding: 0.5rem;
+    padding: 0.6rem;
     font-size: 1rem;
     border-radius: 5px;
-    border: 1px solid #222;
+    border: 1px solid var(--dracula-comment);
+    background: var(--dracula-bg);
+    color: var(--dracula-foreground);
+    flex: 1;
+    min-width: 150px;
+}
+
+#authForm input::placeholder {
+    color: var(--dracula-comment);
+}
+
+#authForm input:focus {
+    outline: none;
+    border-color: var(--dracula-purple);
+    box-shadow: 0 0 0 2px rgba(189, 147, 249, 0.3);
 }
 
 #authForm button {
     font-size: 1rem;
-    padding: 0.5rem 1.25rem;
-    border: 1px solid #222;
-    background: #f8f8f8;
-    color: #222;
+    padding: 0.6rem 1.25rem;
+    border: 1px solid var(--dracula-purple);
+    background: var(--dracula-purple);
+    color: var(--dracula-bg);
     border-radius: 5px;
     cursor: pointer;
-    margin-right: 0.5rem;
-    transition: background 0.2s;
+    font-weight: 600;
+    transition: all 0.2s ease;
 }
 
 #authForm button:hover {
-    background: #e1e1e1;
+    background: var(--dracula-cyan);
+    border-color: var(--dracula-cyan);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(139, 233, 253, 0.3);
 }
 
-nav ul {
-    list-style-type: none;
-    padding-left: 0;
-    margin: 0;
+#authForm button:active {
+    transform: translateY(0);
+}
+
+#logoutBtn {
+    background: var(--dracula-red) !important;
+    border-color: var(--dracula-red) !important;
+}
+
+#logoutBtn:hover {
+    background: var(--dracula-orange) !important;
+    border-color: var(--dracula-orange) !important;
+    box-shadow: 0 4px 8px rgba(255, 184, 108, 0.3) !important;
+}
+
+#userGreeting {
+    color: var(--dracula-green);
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+#actionArea button {
+    font-size: 1.1rem;
+    padding: 0.75rem 1.5rem;
+    border: 2px solid var(--dracula-cyan);
+    background: var(--dracula-cyan);
+    color: var(--dracula-bg);
+    border-radius: 6px;
+    cursor: pointer;
+    margin-right: 1rem;
+    margin-bottom: 0.5rem;
+    font-weight: 700;
+    transition: all 0.2s ease;
+}
+
+#actionArea button:hover {
+    background: var(--dracula-green);
+    border-color: var(--dracula-green);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(80, 250, 123, 0.4);
+}
+
+#actionArea button:active {
+    transform: translateY(0);
+}
+
+#drawBlack {
+    background: var(--dracula-bg) !important;
+    color: var(--dracula-foreground) !important;
+    border-color: var(--dracula-foreground) !important;
+}
+
+#drawBlack:hover {
+    background: var(--dracula-comment) !important;
+    border-color: var(--dracula-purple) !important;
+    box-shadow: 0 6px 12px rgba(189, 147, 249, 0.4) !important;
 }
 
 #drawResult {
-    margin-top: 1rem;
+    margin-top: 1.5rem;
 }
 
 .card {
-    background: #fff;
-    border: 2px solid #222;
+    border: 3px solid;
     border-radius: 10px;
-    padding: 1rem 0.7rem;
-    box-shadow: 0 2px 8px rgba(50, 50, 50, 0.07);
-    font-size: 1rem;
-    color: #222;
+    padding: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    font-size: 1.1rem;
     word-break: break-word;
+    transition: transform 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.02);
 }
 
 .card.white {
-    border-color: #222;
-    background: #fff;
+    border-color: var(--dracula-cyan);
+    background: var(--dracula-foreground);
+    color: var(--dracula-bg);
 }
 
 .card.black {
-    border-color: #222;
-    background: #222;
-    color: #fafafa;
+    border-color: var(--dracula-purple);
+    background: var(--dracula-bg);
+    color: var(--dracula-foreground);
 }
 
 h2,
@@ -94,14 +197,21 @@ h3 {
     font-weight: 600;
     margin-top: 1.5rem;
     margin-bottom: 0.5rem;
+    color: var(--dracula-cyan);
 }
 
 footer {
     text-align: center;
     font-size: 0.95rem;
     padding: 2rem 0 1.2rem 0;
+    color: var(--dracula-comment);
 }
 
+footer p {
+    margin: 0;
+}
+
+/* Mobile Responsive */
 @media (max-width: 600px) {
 
     header,
@@ -128,9 +238,49 @@ footer {
     #actionArea button {
         width: 100%;
         margin-bottom: 0.5rem;
+        margin-right: 0;
     }
 
     #drawResult {
         font-size: 1rem;
     }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+#drawResultsContainer {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.card-container {
+    flex: 1;
+    max-width: 300px;
+}
+
+/* Retaining existing card styles from your original stylesheet for reference */
+.card {
+    border: 3px solid;
+    border-radius: 10px;
+    padding: 1.2rem;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+    font-size: 1.1rem;
+    word-break: break-word;
+    transition: transform 0.2s ease;
+}
+
+.card.white {
+    border-color: var(--dracula-cyan);
+    background: var(--dracula-foreground);
+    color: var(--dracula-bg);
+}
+
+.card.black {
+    border-color: var(--dracula-purple);
+    background: var(--dracula-bg);
+    color: var(--dracula-foreground);
 }
