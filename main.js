@@ -1,5 +1,5 @@
 import app from './firebase.js';
-import CAHDeck from './CAHDeck.js';
+import { CAHDeck } from './CAHDeck.js';
 import {
     getAuth,
     signInWithEmailAndPassword,
