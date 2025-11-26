@@ -9,6 +9,9 @@ const userGreeting = document.getElementById('userGreeting');
 const packList = document.getElementById('packList');
 const cardArea = document.getElementById('cardArea');
 
+console.log('Firebase app:', app);
+
+
 // Placeholder for Firebase Auth integration
 loginBtn.onclick = () => {
     alert('Connect this to Firebase Authentication!');
