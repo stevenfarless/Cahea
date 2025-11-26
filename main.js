@@ -4,7 +4,6 @@ import { CAHDeck } from './CAHDeck.js';
 const loginBtn = document.getElementById('loginBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 const userGreeting = document.getElementById('userGreeting');
-const packList = document.getElementById('packList');
 const cardArea = document.getElementById('cardArea');
 const drawWhite = document.getElementById('drawWhite');
 const drawBlack = document.getElementById('drawBlack');
@@ -20,51 +19,42 @@ logoutBtn.onclick = () => {
     alert('Connect this to Firebase Authentication!');
 };
 
-let sharedDeck; // cache the deck for drawing and for displaying packs/cards
+let allWhiteCards = [];
+let allBlackCards = [];
 
-// Single, combined loadPacks function
-async function loadPacks() {
+// Load all cards from all packs into flat arrays
+async function loadAllCards() {
     const deck = await CAHDeck.fromCompact('cah-all-compact.json');
-    sharedDeck = deck;
-    const packs = deck.listPacks();
-
-    // Populate packList for selection
-    packs.forEach((pack, idx) => {
-        const li = document.createElement('li');
-        li.textContent = `${pack.name} (${pack.counts.total} cards)`;
-        li.onclick = () => showCards(deck, idx);
-        packList.appendChild(li);
+    // Combine all cards from every pack into two big arrays
+    deck.deck.forEach(pack => {
+        allWhiteCards.push(...pack.white);
+        allBlackCards.push(...pack.black);
     });
+    displayAllCards();
 }
 
-// Display all cards from the selected pack
-function showCards(deck, packIdx) {
-    const pack = deck.getPack(packIdx);
-    cardArea.innerHTML = '<h3>White Cards</h3>'
-        + pack.white.map(card => `<div class="card white">${card.text}</div>`).join('')
-        + '<h3>Black Cards</h3>'
-        + pack.black.map(card => `<div class="card black">${card.text}</div>`).join('');
+// Optionally show all cards on page load for browsing/debug
+function displayAllCards() {
+    cardArea.innerHTML =
+        '<h3>White Cards</h3>' +
+        allWhiteCards.map(card => `<div class="card white">${card.text}</div>`).join('') +
+        '<h3>Black Cards</h3>' +
+        allBlackCards.map(card => `<div class="card black">${card.text}</div>`).join('');
 }
 
 // Draw a random white card
 drawWhite.onclick = () => {
-    if (!sharedDeck) return;
-    const packs = sharedDeck.deck;
-    if (packs.length === 0) return;
-    const pack = packs[Math.floor(Math.random() * packs.length)];
-    const card = pack.white[Math.floor(Math.random() * pack.white.length)];
+    if (allWhiteCards.length === 0) return;
+    const card = allWhiteCards[Math.floor(Math.random() * allWhiteCards.length)];
     drawResult.innerHTML = `<div class="card white">${card.text}</div>`;
 };
 
 // Draw a random black card
 drawBlack.onclick = () => {
-    if (!sharedDeck) return;
-    const packs = sharedDeck.deck;
-    if (packs.length === 0) return;
-    const pack = packs[Math.floor(Math.random() * packs.length)];
-    const card = pack.black[Math.floor(Math.random() * pack.black.length)];
+    if (allBlackCards.length === 0) return;
+    const card = allBlackCards[Math.floor(Math.random() * allBlackCards.length)];
     drawResult.innerHTML = `<div class="card black">${card.text}</div>`;
 };
 
-// Only ONE call to loadPacks on startup
-loadPacks();
+// Load all cards when page loads
+loadAllCards();
