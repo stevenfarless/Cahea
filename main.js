@@ -12,20 +12,38 @@ const loginBtn = document.getElementById('loginBtn');
 const signupBtn = document.getElementById('signupBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 const userGreeting = document.getElementById('userGreeting');
-
 const emailInput = document.getElementById('authEmail');
 const passwordInput = document.getElementById('authPassword');
-
 const drawWhite = document.getElementById('drawWhite');
 const drawBlack = document.getElementById('drawBlack');
-
 const drawWhiteResult = document.getElementById('drawWhiteResult');
 const drawBlackResult = document.getElementById('drawBlackResult');
-
 const favoriteBtn = document.getElementById('favoriteBtn');
 const favoritesList = document.getElementById('favoritesList');
-let currentCombo = null;  // {black: "...", white: "..."}
-let userFavorites = [];   // Array of saved combos
+
+let currentCombo = null;
+let userFavorites = [];
+let allWhiteCards = [];
+let allBlackCards = [];
+
+// Favorite button handler
+favoriteBtn.onclick = saveFavorite;
+
+// Load all cards on startup
+async function loadAllCards() {
+    try {
+        const deck = await CAHDeck.fromCompact('cah-all-compact.json');
+        allWhiteCards = [];
+        allBlackCards = [];
+        deck.deck.forEach(pack => {
+            allWhiteCards.push(...pack.white);
+            allBlackCards.push(...pack.black);
+        });
+        console.log(`Loaded ${allWhiteCards.length} white, ${allBlackCards.length} black cards`);
+    } catch (err) {
+        console.error('Failed to load cards:', err);
+    }
+}
 
 signupBtn.onclick = async () => {
     const email = emailInput.value.trim();
@@ -62,6 +80,7 @@ onAuthStateChanged(auth, (user) => {
         userGreeting.textContent = `Welcome, ${user.email}`;
         emailInput.style.display = 'none';
         passwordInput.style.display = 'none';
+        loadFavorites();
     } else {
         loginBtn.style.display = '';
         signupBtn.style.display = '';
@@ -69,17 +88,11 @@ onAuthStateChanged(auth, (user) => {
         userGreeting.textContent = '';
         emailInput.style.display = '';
         passwordInput.style.display = '';
-        if (user) {
-        loadFavorites();  // Load user's favorites
-    } else {
         userFavorites = [];
         displayFavorites();
         favoritesList.innerHTML = '<div style="color: var(--dracula-comment);">Log in to save favorites</div>';
     }
 });
-
-let allWhiteCards = [];
-let allBlackCards = [];
 
 drawWhite.onclick = () => {
     if (allWhiteCards.length === 0) return;
@@ -100,6 +113,7 @@ drawBlack.onclick = () => {
     if (allBlackCards.length === 0) return;
     const card = allBlackCards[Math.floor(Math.random() * allBlackCards.length)];
     drawBlackResult.innerHTML = `<div class="card black">${card.text}</div>`;
+    
     const whiteCard = drawWhiteResult.querySelector('.card.white');
     if (whiteCard) {
         currentCombo = {
@@ -110,16 +124,15 @@ drawBlack.onclick = () => {
     }
 };
 
-loadAllCards();
-
 // Load/save favorites to user's Firebase document
 async function loadFavorites() {
     if (!auth.currentUser) return;
     try {
         const userId = auth.currentUser.uid;
-        const doc = await getDoc(doc(db, 'favorites', userId));
-        if (doc.exists()) {
-            userFavorites = doc.data().combos || [];
+        const docRef = doc(db, 'favorites', userId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            userFavorites = docSnap.data().combos || [];
             displayFavorites();
         }
     } catch (err) {
@@ -131,8 +144,8 @@ async function saveFavorite() {
     if (!currentCombo || !auth.currentUser) return;
 
     const userId = auth.currentUser.uid;
-    userFavorites.unshift(currentCombo);  // Add to front
-    if (userFavorites.length > 20) userFavorites = userFavorites.slice(0, 20);  // Max 20
+    userFavorites.unshift(currentCombo);
+    if (userFavorites.length > 20) userFavorites = userFavorites.slice(0, 20);
 
     try {
         await setDoc(doc(db, 'favorites', userId), { combos: userFavorites }, { merge: true });
@@ -146,10 +159,14 @@ async function saveFavorite() {
 
 function displayFavorites() {
     favoritesList.innerHTML = '';
-    userFavorites.forEach((combo, index) => {
+    if (userFavorites.length === 0) {
+        favoritesList.innerHTML = '<div style="color: var(--dracula-comment);">No favorites yet</div>';
+        return;
+    }
+    userFavorites.forEach((combo) => {
         const div = document.createElement('div');
         div.className = 'fav-combo';
-        div.innerHTML = `<strong>${combo.black}</strong><br>${combo.white}`;
+        div.innerHTML = `<strong>${combo.black}</strong><br><span style="font-size: 0.85rem; opacity: 0.8;">${combo.white}</span>`;
         div.onclick = () => restoreCombo(combo);
         favoritesList.appendChild(div);
     });
@@ -161,3 +178,6 @@ function restoreCombo(combo) {
     currentCombo = combo;
     favoriteBtn.disabled = false;
 }
+
+// Initialize
+loadAllCards();
