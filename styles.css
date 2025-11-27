@@ -181,6 +181,8 @@ section {
     border-radius: 10px;
 }
 
+/* Add this COMPLETE section - replace existing card styles around line 150+ */
+
 /* --- CARD STYLES --- */
 .card {
     border: 3px solid;
@@ -190,8 +192,8 @@ section {
     font-size: 1.1rem;
     word-break: break-word;
     transition: transform 0.2s ease;
-
-    /* Cards always fill parent container exactly - BASE RULE FIRST */
+    
+    /* Cards always fill parent container exactly */
     width: 100%;
     max-width: none;
     box-sizing: border-box;
@@ -201,7 +203,6 @@ section {
     transform: scale(1.02);
 }
 
-/* Color overrides - THESE MUST COME AFTER base width rules */
 .card.white {
     border-color: var(--dracula-cyan);
     background: var(--dracula-foreground);
@@ -213,43 +214,6 @@ section {
     background: var(--dracula-bg);
     color: var(--dracula-foreground);
 }
-
-/* --- HEADERS --- */
-h2,
-h3 {
-    font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--dracula-cyan);
-}
-
-footer {
-    text-align: center;
-    font-size: 0.95rem;
-    padding: 2rem 0 1.2rem 0;
-    color: var(--dracula-comment);
-}
-
-footer p {
-    margin: 0;
-}
-
-/* --- RESPONSIVE STYLES --- */
-/* @media (max-width: 700px) {
-
-    .draw-row,
-    .card-row {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: center;
-    }
-
-    .draw-btn,
-    .card-container {
-        width: 98vw;
-        max-width: 340px;
-    }
-} */
 
 /* --- FAVORITE SYSTEM --- */
 .favorite-row {
@@ -265,7 +229,6 @@ footer p {
 
 .favorite-btn {
     width: 320px;
-    /* Matches card containers */
     padding: 0.8rem;
     font-size: 1.1rem;
     font-weight: bold;
@@ -295,7 +258,6 @@ footer p {
     flex-wrap: wrap;
     gap: 0.5rem;
     max-width: 640px;
-    /* Matches 2x320px cards */
     padding: 0.5rem;
     background: rgba(189, 147, 249, 0.1);
     border-radius: 8px;
