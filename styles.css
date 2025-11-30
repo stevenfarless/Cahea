@@ -32,38 +32,40 @@ header {
     background: var(--dracula-current-line);
     border-bottom: 2px solid var(--dracula-purple);
     text-align: center;
-    /* padding: 0.5rem 1rem 1rem 1rem; */
-    padding: 0.5rem;
+    padding: 0.4rem 1rem 0.5rem 1rem; /* Reduced from 0.5rem 1rem 1rem 1rem */
 }
 
 h1 {
     font-weight: 700;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem; /* Reduced from 0.5rem */
+    margin-top: 0.3rem; /* Added to reduce top space */
     color: var(--dracula-purple);
-    font-size: 2.5rem;
+    font-size: 1.8rem; /* Reduced from 2.5rem */
 }
 
 header p {
     color: var(--dracula-cyan);
-    font-size: 1.1rem;
+    font-size: 0.9rem; /* Reduced from 1.1rem */
+    margin: 0; /* Remove default margin */
 }
 
 section {
-    margin: 2rem auto;
+    margin: 1rem auto; /* Reduced from 2rem auto */
     max-width: 700px;
     background: var(--dracula-current-line);
-    padding: 1.5rem;
+    padding: 1rem; /* Reduced from 1.5rem */
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
     border: 1px solid var(--dracula-selection);
 }
+
 
 /* --- AUTH FORM STYLES --- */
 #authForm {
     display: flex;
     gap: 0.5rem;
     align-items: center;
-    margin-bottom: 1rem;
+    margin-bottom: 0; /* Reduced from 1rem */
     flex-wrap: wrap;
 }
 
@@ -89,8 +91,8 @@ section {
 }
 
 #authForm button {
-    font-size: 1rem;
-    padding: 0.8rem 1.4rem;
+    font-size: 0.9rem; /* Reduced from 1rem */
+    padding: 0.6rem 1rem; /* Reduced from 0.8rem 1.4rem */
     border: 1px solid var(--dracula-purple);
     background: var(--dracula-purple);
     color: var(--dracula-bg);
@@ -127,6 +129,7 @@ section {
     color: var(--dracula-green);
     font-weight: 600;
     margin-left: 0.5rem;
+    font-size: 0.9rem; /* Added to make greeting text smaller */
 }
 
 /* --- BUTTONS AND CARD DISPLAYS SIDE BY SIDE --- */
@@ -344,10 +347,12 @@ section {
 h2,
 h3 {
     font-weight: 600;
-    margin-top: 1.5rem;
+    margin-top: 0; /* Reduced from 1.5rem - especially for first h2 in section */
     margin-bottom: 0.5rem;
     color: var(--dracula-cyan);
+    font-size: 1.1rem; /* Added to reduce h2 size */
 }
+
 
 footer {
     text-align: center;
