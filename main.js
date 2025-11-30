@@ -187,8 +187,8 @@ function renderFavorites() {
         .map(fav => `
       <div class="favorite-item">
         <div class="favorite-cards">
-          <div class="favorite-card white">${fav.white}</div>
-          <div class="favorite-card black">${fav.black}</div>
+        <div class="favorite-card black">${fav.black}</div>
+        <div class="favorite-card white">${fav.white}</div>
         </div>
         <button class="remove-favorite-btn" data-id="${fav.id}">Remove</button>
       </div>
