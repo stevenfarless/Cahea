@@ -22,6 +22,7 @@ const drawBlackResult = document.getElementById('drawBlackResult');
 const favoritesSection = document.getElementById('favoritesSection');
 const favoritesContainer = document.getElementById('favoritesContainer');
 const noFavoritesMsg = document.getElementById('noFavoritesMsg');
+const addToFavoritesBtn = document.getElementById('addToFavoritesBtn');
 
 // Global state
 let allWhiteCards = [];
@@ -79,6 +80,7 @@ onAuthStateChanged(auth, async (user) => {
         await favoritesManager.loadFavorites();
         favoritesSection.classList.add('show');
         renderFavorites();
+        updateFavoriteButton();
     } else {
         currentUser = null;
         favoritesManager = null;
@@ -89,6 +91,7 @@ onAuthStateChanged(auth, async (user) => {
         emailInput.style.display = '';
         passwordInput.style.display = '';
         favoritesSection.classList.remove('show');
+        addToFavoritesBtn.style.display = 'none';
     }
 });
 
@@ -107,13 +110,11 @@ drawWhite.onclick = () => {
     const card = allWhiteCards[Math.floor(Math.random() * allWhiteCards.length)];
     currentCombination.white = card.text;
     drawWhiteResult.innerHTML = `
-  <div class="card white">
-    ${card.text}
-    ${currentUser ? '<button class="heart-icon empty" data-type="white">🤍</button>' : ''}
-  </div>
-`;
-
-    updateHeartButtons();
+        <div class="card white">
+            ${card.text}
+        </div>
+    `;
+    updateFavoriteButton();
 };
 
 drawBlack.onclick = () => {
@@ -121,58 +122,59 @@ drawBlack.onclick = () => {
     const card = allBlackCards[Math.floor(Math.random() * allBlackCards.length)];
     currentCombination.black = card.text;
     drawBlackResult.innerHTML = `
-    <div class="card black">
-      ${card.text}
-      ${currentUser ? `<button class="heart-icon ${getFavoriteButtonState().black}" data-type="black"></button>` : ''}
-    </div>
-  `;
-    updateHeartButtons();
+        <div class="card black">
+            ${card.text}
+        </div>
+    `;
+    updateFavoriteButton();
 };
 
-// Helper to determine heart button state (filled or empty)
-function getFavoriteButtonState() {
-    const isFav = currentCombination.white && currentCombination.black &&
-        favoritesManager.isFavorited(currentCombination.white, currentCombination.black);
-    return {
-        white: isFav ? 'filled' : 'empty',
-        black: isFav ? 'filled' : 'empty'
-    };
+// Update the favorite button state
+function updateFavoriteButton() {
+    // Only show button if user is logged in and both cards are drawn
+    if (!currentUser || !currentCombination.white || !currentCombination.black) {
+        addToFavoritesBtn.style.display = 'none';
+        return;
+    }
+
+    addToFavoritesBtn.style.display = 'flex';
+
+    const isFav = favoritesManager.isFavorited(currentCombination.white, currentCombination.black);
+    const heartIcon = addToFavoritesBtn.querySelector('.heart-icon');
+    const btnLabel = addToFavoritesBtn.querySelector('.btn-label');
+
+    if (isFav) {
+        heartIcon.textContent = '❤️';
+        btnLabel.textContent = 'Remove from Favorites';
+        addToFavoritesBtn.classList.add('favorited');
+    } else {
+        heartIcon.textContent = '🤍';
+        btnLabel.textContent = 'Add to Favorites';
+        addToFavoritesBtn.classList.remove('favorited');
+    }
 }
 
-// Attach event listeners to heart buttons
-function updateHeartButtons() {
-    const hearts = document.querySelectorAll('.heart-icon');
-    hearts.forEach(btn => {
-        btn.onclick = async (e) => {
-            e.stopPropagation();
-            if (!currentCombination.white || !currentCombination.black) {
-                alert('Please draw both cards first!');
-                return;
-            }
+// Add to favorites button click handler
+addToFavoritesBtn.onclick = async () => {
+    if (!currentCombination.white || !currentCombination.black) {
+        alert('Please draw both cards first!');
+        return;
+    }
 
-            const isFav = favoritesManager.isFavorited(currentCombination.white, currentCombination.black);
+    const isFav = favoritesManager.isFavorited(currentCombination.white, currentCombination.black);
 
-            if (isFav) {
-                // Remove favorite
-                const favId = favoritesManager.getFavoriteId(currentCombination.white, currentCombination.black);
-                await favoritesManager.removeFavoriteById(favId);
-                btn.textContent = '🤍';
-                btn.classList.remove('filled');
-                btn.classList.add('empty');
-            } else {
-                // Add favorite
-                await favoritesManager.addFavorite(currentCombination.white, currentCombination.black);
-                hearts.forEach(h => {
-                    h.textContent = '❤️';
-                    h.classList.remove('empty');
-                    h.classList.add('filled');
-                });
-            }
+    if (isFav) {
+        // Remove favorite
+        const favId = favoritesManager.getFavoriteId(currentCombination.white, currentCombination.black);
+        await favoritesManager.removeFavoriteById(favId);
+    } else {
+        // Add favorite
+        await favoritesManager.addFavorite(currentCombination.white, currentCombination.black);
+    }
 
-            renderFavorites();
-        };
-    });
-}
+    updateFavoriteButton();
+    renderFavorites();
+};
 
 // Render favorites list
 function renderFavorites() {
@@ -185,14 +187,14 @@ function renderFavorites() {
     noFavoritesMsg.style.display = 'none';
     favoritesContainer.innerHTML = favoritesManager.favorites
         .map(fav => `
-      <div class="favorite-item">
-        <div class="favorite-cards">
-        <div class="favorite-card black">${fav.black}</div>
-        <div class="favorite-card white">${fav.white}</div>
-        </div>
-        <button class="remove-favorite-btn" data-id="${fav.id}">Remove</button>
-      </div>
-    `)
+            <div class="favorite-item">
+                <div class="favorite-cards">
+                    <div class="favorite-card black">${fav.black}</div>
+                    <div class="favorite-card white">${fav.white}</div>
+                </div>
+                <button class="remove-favorite-btn" data-id="${fav.id}">Remove</button>
+            </div>
+        `)
         .join('');
 
     // Attach remove event listeners
@@ -201,8 +203,7 @@ function renderFavorites() {
             const favId = btn.getAttribute('data-id');
             await favoritesManager.removeFavoriteById(favId);
             renderFavorites();
-            // Update heart buttons if current combo was removed
-            updateHeartButtons();
+            updateFavoriteButton();
         };
     });
 }

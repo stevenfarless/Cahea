@@ -2,27 +2,47 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <title>Cahea Cards Against Humanity Clone</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="icon" href="favicon.ico" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards Against Humanity Clone</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
     <header>
-        <h1>C.A.H.E.A.</h1>
-        <p>Cards Against Humanity Evil Apples Cards!</p>
+        <h1>Cards Against Humanity</h1>
+        <p>An Evil Apples / CAH Clone</p>
     </header>
+
+    <section id="auth">
+        <h2>Account</h2>
+        <div id="authForm">
+            <input type="email" id="authEmail" placeholder="Email">
+            <input type="password" id="authPassword" placeholder="Password">
+            <button id="signupBtn">Sign Up</button>
+            <button id="loginBtn">Log In</button>
+            <button id="logoutBtn" style="display: none;">Log Out</button>
+            <span id="userGreeting"></span>
+        </div>
+    </section>
 
     <section id="actionArea">
         <div class="draw-row">
-            <button id="drawBlack" class="draw-btn">Draw Black Card</button>
-            <button id="drawWhite" class="draw-btn">Draw White Card</button>
+            <button class="draw-btn" id="drawBlack">Draw Black Card</button>
+            <button class="draw-btn" id="drawWhite">Draw White Card</button>
         </div>
+
         <div class="card-row">
-            <div id="drawBlackResult" class="card-container"></div>
-            <div id="drawWhiteResult" class="card-container"></div>
+            <div class="card-container" id="drawBlackResult"></div>
+            <div class="card-container" id="drawWhiteResult"></div>
+        </div>
+
+        <!-- Favorite button row -->
+        <div class="favorite-btn-row">
+            <button id="addToFavoritesBtn" style="display: none;">
+                <span class="heart-icon">🤍</span>
+                <span class="btn-label">Add to Favorites</span>
+            </button>
         </div>
     </section>
 
@@ -30,31 +50,14 @@
         <h2>❤️ Your Favorites</h2>
         <div id="favoritesContainer"></div>
         <p id="noFavoritesMsg" style="color: var(--dracula-comment); text-align: center;">
-            No favorites yet. Click the heart icon on cards to save combinations!
+            No favorites yet. Draw cards and click "Add to Favorites"!
         </p>
     </section>
 
     <footer>
-        <p>
-            Cards Against Humanity content is CAH and used under CC BY-NC-SA 4.0.
-            <br />
-            Project FOSS, credits in README.
-        </p>
+        <p>A GNU 3.0 FOSS project • Learning project</p>
     </footer>
 
-    <section id="authFormArea">
-        <form id="authForm" autocomplete="off" onsubmit="return false">
-            <input type="email" id="authEmail" placeholder="Email" autocomplete="username" required />
-            <input type="password" id="authPassword" placeholder="Password" autocomplete="current-password" required />
-            <button type="button" id="loginBtn">Log In</button>
-            <button type="button" id="signupBtn">Sign Up</button>
-            <button type="button" id="logoutBtn" style="display:none">Log Out</button>
-            <span id="userGreeting"></span>
-        </form>
-    </section>
-
-    <script type="module" src="firebase.js"></script>
-    <script type="module" src="CAHDeck.js"></script>
     <script type="module" src="main.js"></script>
 </body>
 

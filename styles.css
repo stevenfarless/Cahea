@@ -35,7 +35,6 @@ header {
     padding: 0.5rem 1rem 1rem 1rem;
 }
 
-
 h1 {
     font-weight: 700;
     margin-bottom: 0.5rem;
@@ -163,6 +162,7 @@ section {
     box-shadow: 0 3px 14px rgba(93, 76, 164, 0.11);
     letter-spacing: 1px;
     transition: all 0.15s ease;
+    cursor: pointer;
 }
 
 .draw-btn:hover {
@@ -176,7 +176,6 @@ section {
     min-height: 120px;
     display: flex;
     justify-content: center;
-    /* align-items: center; */
     background: transparent;
     border-radius: 10px;
 }
@@ -190,7 +189,6 @@ section {
     font-size: 1.1rem;
     word-break: break-word;
     transition: transform 0.2s ease;
-
     /* Cards always fill parent container exactly - BASE RULE FIRST */
     width: 100%;
     max-width: none;
@@ -214,45 +212,62 @@ section {
     color: var(--dracula-foreground);
 }
 
-/* --- HEADERS --- */
-h2,
-h3 {
+/* --- FAVORITE BUTTON ROW --- */
+.favorite-btn-row {
+    display: flex;
+    justify-content: center;
+    margin-top: 1rem;
+    width: 100%;
+}
+
+#addToFavoritesBtn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8rem 1.5rem;
+    font-size: 1.1rem;
     font-weight: 600;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--dracula-cyan);
+    background: var(--dracula-pink);
+    color: var(--dracula-bg);
+    border: 2px solid var(--dracula-pink);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 3px 10px rgba(255, 121, 198, 0.3);
 }
 
-footer {
-    text-align: center;
-    font-size: 0.95rem;
-    padding: 2rem 0 1.2rem 0;
-    color: var(--dracula-comment);
+#addToFavoritesBtn:hover {
+    background: var(--dracula-purple);
+    border-color: var(--dracula-purple);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(189, 147, 249, 0.4);
 }
 
-footer p {
-    margin: 0;
+#addToFavoritesBtn:active {
+    transform: translateY(0);
 }
 
-/* --- RESPONSIVE STYLES --- */
-/* @media (max-width: 700px) {
+#addToFavoritesBtn .heart-icon {
+    font-size: 1.3rem;
+    line-height: 1;
+}
 
-    .draw-row,
-    .card-row {
-        flex-direction: column;
-        gap: 1rem;
-        align-items: center;
-    }
+#addToFavoritesBtn .btn-label {
+    line-height: 1;
+}
 
-    .draw-btn,
-    .card-container {
-        width: 98vw;
-        max-width: 340px;
-    }
-} */
+/* When combo is already favorited */
+#addToFavoritesBtn.favorited {
+    background: var(--dracula-red);
+    border-color: var(--dracula-red);
+}
+
+#addToFavoritesBtn.favorited:hover {
+    background: var(--dracula-orange);
+    border-color: var(--dracula-orange);
+}
 
 /* --- FAVORITES SYSTEM STYLES --- */
-
 #favoritesSection {
     display: none;
     /* Hidden until user logs in */
@@ -308,30 +323,6 @@ footer p {
     border-color: var(--dracula-purple);
 }
 
-.heart-icon {
-    width: 2rem;
-    height: 2rem;
-    border: none;
-    background: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    transition: transform 0.1s ease;
-    padding: 0;
-    flex-shrink: 0;
-}
-
-.heart-icon:hover {
-    transform: scale(1.2);
-}
-
-.heart-icon.filled {
-    color: var(--dracula-red);
-}
-
-.heart-icon.empty {
-    color: var(--dracula-comment);
-}
-
 .remove-favorite-btn {
     padding: 0.5rem 1rem;
     background: var(--dracula-red);
@@ -346,4 +337,24 @@ footer p {
 
 .remove-favorite-btn:hover {
     background: var(--dracula-orange);
+}
+
+/* --- HEADERS --- */
+h2,
+h3 {
+    font-weight: 600;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--dracula-cyan);
+}
+
+footer {
+    text-align: center;
+    font-size: 0.95rem;
+    padding: 2rem 0 1.2rem 0;
+    color: var(--dracula-comment);
+}
+
+footer p {
+    margin: 0;
 }
