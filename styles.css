@@ -32,7 +32,8 @@ header {
     background: var(--dracula-current-line);
     border-bottom: 2px solid var(--dracula-purple);
     text-align: center;
-    padding: 0.5rem 1rem 1rem 1rem;
+    /* padding: 0.5rem 1rem 1rem 1rem; */
+    padding: 0.5rem;
 }
 
 h1 {
