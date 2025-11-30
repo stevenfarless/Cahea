@@ -107,11 +107,12 @@ drawWhite.onclick = () => {
     const card = allWhiteCards[Math.floor(Math.random() * allWhiteCards.length)];
     currentCombination.white = card.text;
     drawWhiteResult.innerHTML = `
-    <div class="card white">
-      ${card.text}
-      ${currentUser ? `<button class="heart-icon ${getFavoriteButtonState().white}" data-type="white"></button>` : ''}
-    </div>
-  `;
+  <div class="card white">
+    ${card.text}
+    ${currentUser ? '<button class="heart-icon empty" data-type="white">🤍</button>' : ''}
+  </div>
+`;
+
     updateHeartButtons();
 };
 
