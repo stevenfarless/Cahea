@@ -7,34 +7,39 @@ import { UIRenderer } from './UIRenderer.js';
 
 class CAHEAApp {
     constructor() {
-        // Managers
-        this.authManager = new AuthManager(auth, (user) => this.handleAuthChange(user));
-        this.cardManager = new CardManager('cah-all-compact.json');
-        this.favoritesManager = null;
-        
-        // DOM Elements
-        this.drawBlackBtn = document.getElementById('drawBlack');
-        this.drawWhiteBtn = document.getElementById('drawWhite');
-        this.drawBlackResult = document.getElementById('drawBlackResult');
-        this.drawWhiteResult = document.getElementById('drawWhiteResult');
-        this.favoriteBtn = document.getElementById('favoriteBtn');
-        this.favoritesSection = document.getElementById('favoritesSection');
-        this.favoritesContainer = document.getElementById('favoritesContainer');
-        this.noFavoritesMsg = document.getElementById('noFavoritesMsg');
-        
-        this._setupEventListeners();
-        this._init();
-    }
+    // Managers
+    this.authManager = new AuthManager(auth, (user) => this.handleAuthChange(user));
+    this.cardManager = new CardManager('cah-all-compact.json');
+    this.favoritesManager = null;
     
-    async _init() {
-        await this.cardManager.loadDeck();
-    }
+    // DOM Elements
+    this.drawBlackBtn = document.getElementById('drawBlack');
+    this.drawWhiteBtn = document.getElementById('drawWhite');
+    this.drawBlackResult = document.getElementById('drawBlackResult');
+    this.drawWhiteResult = document.getElementById('drawWhiteResult');
+    this.favoriteBtn = document.getElementById('favoriteBtn');
+    this.favoritesSection = document.getElementById('favoritesSection');
+    this.favoritesContainer = document.getElementById('favoritesContainer');
+    this.noFavoritesMsg = document.getElementById('noFavoritesMsg');
+    this.toggleFavoritesBtn = document.getElementById('toggleFavoritesBtn');
     
-    _setupEventListeners() {
-        this.drawBlackBtn.onclick = () => this.drawBlackCard();
-        this.drawWhiteBtn.onclick = () => this.drawWhiteCard();
-        this.favoriteBtn.onclick = () => this.toggleFavorite();
-    }
+    this._setupEventListeners();
+    this._init();
+}
+
+_setupEventListeners() {
+    this.drawBlackBtn.onclick = () => this.drawBlackCard();
+    this.drawWhiteBtn.onclick = () => this.drawWhiteCard();
+    this.favoriteBtn.onclick = () => this.toggleFavorite();
+    this.toggleFavoritesBtn.onclick = () => this.toggleFavoritesView();
+}
+
+// Toggle favorites visibility
+toggleFavoritesView() {
+    const isCollapsed = this.favoritesSection.classList.toggle('collapsed');
+    this.toggleFavoritesBtn.textContent = isCollapsed ? 'Show Favorites' : 'Hide Favorites';
+}
+
     
     async handleAuthChange(user) {
         if (user) {

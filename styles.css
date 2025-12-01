@@ -380,3 +380,39 @@ footer p {
     cursor: not-allowed;
     transform: none;
 }
+
+/* Favorites header with toggle button */
+.favorites-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.favorites-header h2 {
+    margin: 0;
+}
+
+.toggle-favorites-btn {
+    padding: 0.5rem 1rem;
+    background: var(--dracula-purple);
+    color: var(--dracula-foreground);
+    border: 2px solid var(--dracula-purple);
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+.toggle-favorites-btn:hover {
+    background: var(--dracula-pink);
+    border-color: var(--dracula-pink);
+    transform: scale(1.05);
+}
+
+/* Hide favorites content when collapsed */
+#favoritesSection.collapsed #favoritesContainer,
+#favoritesSection.collapsed #noFavoritesMsg {
+    display: none;
+}
