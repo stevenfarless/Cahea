@@ -366,6 +366,10 @@ footer p {
     cursor: pointer;
     transition: all 0.2s ease;
     font-weight: 500;
+    white-space: nowrap; /* Prevent text wrapping */
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem; /* Space between emoji and text */
 }
 
 #favoriteBtn:hover:not(:disabled) {
@@ -379,6 +383,7 @@ footer p {
     cursor: not-allowed;
     transform: none;
 }
+
 
 .heart-icon.filled {
     background: var(--dracula-pink);
